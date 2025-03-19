@@ -10,6 +10,7 @@ def build_and_train_model(X_train, y_train, X_test, y_test, epochs=100, batch_si
     """Xây dựng và huấn luyện mô hình học sâu."""
     logging.info("Building and training the model") # Ghi log thông báo đang xây dựng và huấn luyện mô hình
     model = keras.Sequential([ # Tạo mô hình *** Sequential ***
+                              # mô hình được sử dụng là một Mạng Nơ-ron Nhân tạo (Artificial Neural Network - ANN) được xây dựng bằng Keras (thuộc TensorFlow).
         layers.Dense(256, activation='relu', input_shape=(X_train.shape[1],)), # Lớp ẩn đầu tiên với 256 nơ-ron và hàm kích hoạt ReLU
         layers.Dropout(0.3), # Lớp Dropout để tránh overfitting
         layers.Dense(128, activation='relu'), # Lớp ẩn thứ hai với 128 nơ-ron và hàm kích hoạt ReLU
