@@ -5,29 +5,40 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint # Import c
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score # Import các hàm đánh giá mô hình
 import numpy as np # Import thư viện NumPy để làm việc với mảng
 import logging # Import thư viện logging để ghi log
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import Adam
 
-def build_and_train_model(X_train, y_train, X_test, y_test, epochs=100, batch_size=32):
-    """Xây dựng và huấn luyện mô hình học sâu."""
-    logging.info("Building and training the model") # Ghi log thông báo đang xây dựng và huấn luyện mô hình
-    model = keras.Sequential([ # Tạo mô hình *** Sequential ***
-        layers.Dense(256, activation='relu', input_shape=(X_train.shape[1],)), # Lớp ẩn đầu tiên với 256 nơ-ron và hàm kích hoạt ReLU
-        layers.Dropout(0.3), # Lớp Dropout để tránh overfitting
-        layers.Dense(128, activation='relu'), # Lớp ẩn thứ hai với 128 nơ-ron và hàm kích hoạt ReLU
-        layers.Dropout(0.3), # Lớp Dropout
-        layers.Dense(64, activation='relu'), # Lớp ẩn thứ ba với 64 nơ-ron và hàm kích hoạt ReLU
-        layers.Dense(1) # Lớp đầu ra với 1 nơ-ron (cho hồi quy)
+def build_and_train_model(X_train, y_train, X_test, y_test, callbacks=None):
+    """
+    Xây dựng và huấn luyện mô hình.
+    :param X_train: Dữ liệu huấn luyện
+    :param y_train: Nhãn huấn luyện
+    :param X_test: Dữ liệu kiểm tra
+    :param y_test: Nhãn kiểm tra
+    :param callbacks: Danh sách các callback (mặc định là None)
+    :return: Mô hình đã huấn luyện và lịch sử huấn luyện
+    """
+    # Xây dựng mô hình
+    model = Sequential([
+        Dense(64, activation='relu', input_shape=(X_train.shape[1],)),
+        Dense(32, activation='relu'),
+        Dense(1)  # Output layer
     ])
 
-    model.compile(optimizer='adam', loss='mse') # Biên dịch mô hình với optimizer Adam và hàm mất mát MSE
+    # Compile mô hình
+    model.compile(optimizer=Adam(learning_rate=0.001), loss='mse', metrics=['mae'])
 
-    early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True) # Khởi tạo EarlyStopping
-    model_checkpoint = ModelCheckpoint('Project_LPP/best_laptop_model.keras', save_best_only=True) # Khởi tạo ModelCheckpoint
+    # Huấn luyện mô hình
+    history = model.fit(
+        X_train, y_train,
+        validation_data=(X_test, y_test),
+        epochs=50,
+        batch_size=32,
+        callbacks=callbacks  # Truyền callbacks vào đây
+    )
 
-    history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, # Huấn luyện mô hình
-                        validation_split=0.2, verbose=1,
-                        callbacks=[early_stopping, model_checkpoint])
-
-    return model, history # Trả về mô hình và lịch sử huấn luyện
+    return model, history
 
 def evaluate_model(model, X_test, y_test):
     """Đánh giá mô hình và xuất kết quả."""
