@@ -26,6 +26,7 @@ def build_and_train_model(X_train, y_train, X_test, y_test, epochs=100, batch_si
     model_checkpoint = ModelCheckpoint('Project_LPP/best_laptop_model.keras', save_best_only=True) # Khởi tạo ModelCheckpoint
     # Lưu mô hình tốt nhất vào file best_laptop_model.keras.
 
+    # Validation đánh giá mô hình trên tập kiểm tra sau mỗi epoch.
     history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, # Huấn luyện mô hình
                         validation_split=0.2, verbose=1,
                         callbacks=[early_stopping, model_checkpoint])

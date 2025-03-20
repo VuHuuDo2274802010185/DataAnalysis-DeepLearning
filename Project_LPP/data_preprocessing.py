@@ -22,6 +22,7 @@ def load_and_preprocess_data(filepath):
     data = pd.read_csv(filepath) # Đọc dữ liệu từ file CSV
     data = data.dropna() # Loại bỏ các hàng có giá trị NaN
 
+    # Sử lý nhãn 
     data['Storage_GB'] = data['Storage'].apply(extract_storage_gb).astype(float) # Trích xuất dung lượng lưu trữ (GB) từ cột 'Storage'
     data = data.drop('Storage', axis=1) # Loại bỏ cột 'Storage' gốc
 
