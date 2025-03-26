@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dự đoán giá Laptop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Dự đoán giá Laptop</h1>
+        <form id="laptop-form" method="POST">
+            <div class="form-group">
+                <label for="brand">Thương hiệu:</label>
+                <select class="form-control" id="brand" name="brand" required>
+                    {% for brand in brands %}
+                        <option value="{{ brand }}">{{ brand }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Chọn thương hiệu laptop bạn quan tâm.</small>
+            </div>
+            <div class="form-group">
+                <label for="processor">Bộ xử lý (CPU):</label>
+                <select class="form-control" id="processor" name="processor" required>
+                    {% for processor in processors %}
+                        <option value="{{ processor }}">{{ processor }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Chọn bộ xử lý của laptop (ví dụ: Intel Core i5, AMD Ryzen 7).</small>
+            </div>
+            <div class="form-group">
+                <label for="ram">RAM (GB):</label>
+                <input type="number" class="form-control" id="ram" name="ram" required>
+                <small class="form-text text-muted">Dung lượng RAM (bộ nhớ tạm), ảnh hưởng đến khả năng đa nhiệm (ví dụ: 8, 16, 32).</small>
+            </div>
+            <div class="form-group">
+                <label for="storage">Ổ cứng:</label>
+                <input type="text" class="form-control" id="storage" name="storage" required>
+                <small class="form-text text-muted">Dung lượng và loại ổ cứng (ví dụ: 512GB SSD, 1TB HDD).</small>
+            </div>
+            <div class="form-group">
+                <label for="gpu">Card đồ họa (GPU):</label>
+                <select class="form-control" id="gpu" name="gpu" required>
+                    {% for gpu in gpus %}
+                        <option value="{{ gpu }}">{{ gpu }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Card đồ họa, ảnh hưởng đến khả năng xử lý đồ họa (ví dụ: NVIDIA GeForce RTX 3060, AMD Radeon RX 6600M).</small>
+            </div>
+            <div class="form-group">
+                <label for="screen_size">Kích thước màn hình (inch):</label>
+                <input type="number" class="form-control" id="screen_size" name="screen_size" required>
+                <small class="form-text text-muted">Kích thước màn hình laptop (ví dụ: 14, 15.6, 17).</small>
+            </div>
+            <div class="form-group">
+                <label for="resolution">Độ phân giải màn hình:</label>
+                <select class="form-control" id="resolution" name="resolution" required>
+                    {% for resolution in resolutions %}
+                        <option value="{{ resolution }}">{{ resolution }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Độ phân giải màn hình (ví dụ: 1920x1080, 2560x1440).</small>
+            </div>
+            <div class="form-group">
+                <label for="os">Hệ điều hành:</label>
+                <select class="form-control" id="os" name="os" required>
+                    {% for os in operating_systems %}
+                        <option value="{{ os }}">{{ os }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Hệ điều hành của laptop (ví dụ: Windows 10, macOS).</small>
+            </div>
+            <div class="form-group">
+                <label for="battery_life">Thời lượng pin (giờ):</label>
+                <input type="number" class="form-control" id="battery_life" name="battery_life" required>
+                <small class="form-text text-muted">Thời lượng pin ước tính của laptop.</small>
+            </div>
+            <div class="form-group">
+                <label for="weight">Trọng lượng (kg):</label>
+                <input type="number" class="form-control" id="weight" name="weight" required>
+                <small class="form-text text-muted">Trọng lượng của laptop.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Dự đoán</button>
+            <div class="loading" id="loading">Đang dự đoán...</div>
+        </form>
+        {% if prediction %}
+            <p class="prediction">Giá dự đoán: {{ prediction }} $</p>
+        {% endif %}
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <script>
+        document.getElementById('laptop-form').addEventListener('submit', function(event) {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error-message').textContent = '';
+
+            // Ví dụ: Kiểm tra dữ liệu đầu vào (bạn có thể thêm các kiểm tra khác)
+            let ram = document.getElementById('ram').value;
+            if (ram <= 0) {
+                event.preventDefault(); // Ngăn chặn gửi form nếu có lỗi
+                document.getElementById('error-message').textContent = 'RAM phải lớn hơn 0.';
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
