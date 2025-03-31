@@ -1,0 +1,28 @@
+1. Training Loss (Mất mát huấn luyện)
+
+Định nghĩa:
+Training loss đo lường mức độ sai khác giữa dự đoán của mô hình và giá trị thực tế trên tập dữ liệu huấn luyện.
+Nói cách khác, nó cho biết mô hình "học" tốt đến mức nào trên dữ liệu được sử dụng để huấn luyện.
+Ý nghĩa:
+Training loss thấp cho thấy mô hình đang khớp tốt với dữ liệu huấn luyện.
+Tuy nhiên, training loss quá thấp có thể là dấu hiệu của việc "overfitting" (quá khớp), tức là mô hình học quá chi tiết dữ liệu huấn luyện và không khái quát hóa tốt cho dữ liệu mới.
+Cách thức hoạt động:
+Trong quá trình huấn luyện, mô hình cố gắng giảm thiểu training loss bằng cách điều chỉnh các tham số của mình.
+
+2. Validation Loss (Mất mát kiểm định)
+
+Định nghĩa:
+Validation loss đo lường mức độ sai khác giữa dự đoán của mô hình và giá trị thực tế trên tập dữ liệu kiểm định.
+Tập dữ liệu kiểm định là một phần dữ liệu không được sử dụng trong quá trình huấn luyện, mà được giữ lại để đánh giá khả năng khái quát hóa của mô hình.
+Ý nghĩa:
+Validation loss cho biết mô hình hoạt động tốt như thế nào trên dữ liệu mới, chưa từng thấy trước đó.
+Validation loss giúp phát hiện tình trạng overfitting. Nếu training loss tiếp tục giảm nhưng validation loss tăng lên, đó là dấu hiệu của overfitting.
+Cách thức hoạt động:
+Validation loss được tính toán sau mỗi epoch (một vòng huấn luyện) hoặc sau một số bước huấn luyện nhất định.
+Nó được sử dụng để theo dõi hiệu suất của mô hình và điều chỉnh các siêu tham số (hyperparameters) nếu cần thiết.
+
+Tóm lại:
+
+Training loss và validation loss là hai chỉ số quan trọng để đánh giá hiệu suất của mô hình học máy.
+Training loss cho biết mô hình khớp tốt đến mức nào với dữ liệu huấn luyện, trong khi validation loss cho biết khả năng khái quát hóa của mô hình trên dữ liệu mới.
+Việc theo dõi cả hai chỉ số này giúp phát hiện và ngăn chặn tình trạng overfitting, đảm bảo mô hình có khả năng hoạt động tốt trong thực tế.
