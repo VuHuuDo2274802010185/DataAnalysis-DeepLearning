@@ -55,6 +55,9 @@ def load_and_preprocess_data(filepath):
         y = data[target].values  # Lấy dữ liệu mục tiêu
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)  # Chia dữ liệu thành tập huấn luyện và tập kiểm tra
+        # laptop_prices.csv có 11770 dòng.
+        # Tập huấn luyện (80%): 9416 dòng.
+        # Tập kiểm tra (20%): 2354 dòng.
         return X_train, X_test, y_train, y_test, preprocessor  # Trả về dữ liệu đã tiền xử lý và preprocessor
 
     except Exception as e:
